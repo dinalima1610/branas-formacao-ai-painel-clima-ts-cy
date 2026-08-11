@@ -1,0 +1,41 @@
+[
+  {
+    "charter": "CH-01",
+    "verdict": "pass",
+    "notes": [
+      "Delayed /weather response showed visible loading feedback before forecast content arrived.",
+      "Forecast loaded after the delayed network variation without duplicate or stuck loading state."
+    ],
+    "screenshots": [
+      "screenshots/task05-ch01-01-delayed-weather-loading.png",
+      "screenshots/task05-ch01-02-delayed-weather-loaded.png"
+    ]
+  },
+  {
+    "charter": "CH-02",
+    "verdict": "pass",
+    "notes": [
+      "Accented Sao Paulo query resolved to weather through the public UI.",
+      "Long pasted non-city query produced recoverable PT-BR no-results guidance, then corrected Curitiba search loaded forecast without refresh."
+    ],
+    "screenshots": [
+      "screenshots/task05-ch02-01-sao-paulo-accented.png",
+      "screenshots/task05-ch02-02-long-query-error.png",
+      "screenshots/task05-ch02-03-corrected-curitiba.png"
+    ]
+  },
+  {
+    "charter": "CH-03",
+    "verdict": "pass",
+    "notes": [
+      "Browser Back from the single-route direct-entry page left the app instead of creating an in-app stuck state; Forward returned to a usable panel.",
+      "Refresh returned the panel to a sensible initial state and manual search reached forecast."
+    ],
+    "screenshots": [
+      "screenshots/task05-ch03-01-no-results-before-back.png",
+      "screenshots/task05-ch03-02-after-back-attempt.png",
+      "screenshots/task05-ch03-03-refresh-recovered.png",
+      "screenshots/task05-ch03-04-manual-after-refresh.png"
+    ]
+  }
+]

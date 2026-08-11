@@ -1,0 +1,100 @@
+[
+  {
+    "id": "SMOKE-001, TC-JOURNEY-001, TC-CFR-006",
+    "verdict": "pass",
+    "notes": [
+      "Entry state, Springfield disambiguation, and selected forecast all reached through the public UI.",
+      "No browser-side Open-Meteo requests observed; weather/geocoding requests used the project backend boundary."
+    ],
+    "screenshots": [
+      "screenshots/task05-j01-01-entry.png",
+      "screenshots/task05-j01-02-disambiguation.png",
+      "screenshots/task05-j01-03-forecast.png"
+    ],
+    "browserRequests": [
+      "http://127.0.0.1:4173/",
+      "http://127.0.0.1:4173/assets/index-fO6-OQDy.js",
+      "http://127.0.0.1:4173/assets/index-CNjixtJ1.css",
+      "http://localhost:3000/health",
+      "http://localhost:3000/places/search?q=Springfield",
+      "http://localhost:3000/weather?latitude=36.50921&longitude=-86.885&temperatureUnit=celsius"
+    ]
+  },
+  {
+    "id": "TC-FUNC-001, TC-PERSONA-001",
+    "verdict": "pass",
+    "notes": [
+      "Unit toggle changed visible wind labels between km/h and mph with current conditions visible.",
+      "Repeated city searches replaced prior city context without requiring refresh."
+    ],
+    "screenshots": [
+      "screenshots/task05-j04-01-sao-paulo-celsius.png",
+      "screenshots/task05-j04-02-sao-paulo-fahrenheit.png",
+      "screenshots/task05-j06-01-curitiba-replace.png",
+      "screenshots/task05-j06-02-springfield-third-city.png"
+    ]
+  },
+  {
+    "id": "TC-FUNC-002",
+    "verdict": "pass",
+    "notes": [
+      "No-results guidance was visible in PT-BR and manual search remained enabled.",
+      "A valid city search recovered without refreshing the app."
+    ],
+    "screenshots": [
+      "screenshots/task05-j05-01-no-results.png",
+      "screenshots/task05-j05-02-no-results-recovery.png"
+    ]
+  },
+  {
+    "id": "TC-FUNC-003, TC-CFR-005",
+    "verdict": "pass",
+    "notes": [
+      "Synthetic 502 on /weather produced PT-BR availability copy and a retry affordance.",
+      "Retry recovered the same user journey after availability was restored."
+    ],
+    "screenshots": [
+      "screenshots/task05-j05-03-upstream-failure.png",
+      "screenshots/task05-j05-04-upstream-retry-recovered.png"
+    ]
+  },
+  {
+    "id": "TC-JOURNEY-002, TC-CFR-003, TC-CFR-004",
+    "verdict": "friction",
+    "notes": [
+      "Geolocation permission was explicitly granted after clicking the location affordance.",
+      "Resolved place label uses coordinate fallback rather than a human-readable locality.",
+      "Mobile 375px viewport completed the weather goal but body width overflowed (2600px scroll width vs 375px client width)."
+    ],
+    "screenshots": [
+      "screenshots/task05-j02-01-mobile-entry.png",
+      "screenshots/task05-j02-03-location-forecast.png"
+    ]
+  },
+  {
+    "id": "TC-JOURNEY-003",
+    "verdict": "pass",
+    "notes": [
+      "Denied geolocation produced neutral PT-BR guidance.",
+      "Manual search remained enabled and reached a city forecast after denial."
+    ],
+    "screenshots": [
+      "screenshots/task05-j03-01-location-denied.png",
+      "screenshots/task05-j03-02-denial-manual-search.png"
+    ]
+  },
+  {
+    "id": "TC-CFR-001, TC-CFR-002, TC-CFR-004",
+    "verdict": "friction",
+    "notes": [
+      "Search label is associated with the input and all buttons exposed non-empty text names in this quick check.",
+      "Tablet and mobile responsive screenshots captured; body width overflowed at 375px (2600px scroll width vs 375px client width).",
+      "Screen-reader audit was limited to DOM/accessibility-name checks because NVDA/VoiceOver tooling is not available in this shell session."
+    ],
+    "screenshots": [
+      "screenshots/task05-cfr-01-tablet-768.png",
+      "screenshots/task05-cfr-02-mobile-375.png",
+      "screenshots/task05-cfr-03-keyboard-focus-search.png"
+    ]
+  }
+]

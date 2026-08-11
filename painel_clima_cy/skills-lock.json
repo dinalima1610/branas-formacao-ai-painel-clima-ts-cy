@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "qa-execution": {
+      "source": "pedronauck/skills",
+      "sourceType": "github",
+      "skillPath": "skills/mine/qa-execution/SKILL.md",
+      "computedHash": "1627598351a3a2a8aee301de9bf9125040f98ed620e2d42a8cb6101b4e5aa4ef"
+    },
+    "qa-report": {
+      "source": "pedronauck/skills",
+      "sourceType": "github",
+      "skillPath": "skills/mine/qa-report/SKILL.md",
+      "computedHash": "9634038979f3e538c42d6f36a4d273809a635b2d4e808637ecd199dd19b72317"
+    }
+  }
+}

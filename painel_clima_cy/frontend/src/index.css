@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 33% 97%;
+    --foreground: 60 3% 8%;
+    --card: 39 35% 90%;
+    --card-foreground: 60 3% 8%;
+    --popover: 48 33% 97%;
+    --popover-foreground: 60 3% 8%;
+    --primary: 15 46% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 37 39% 94%;
+    --secondary-foreground: 60 3% 8%;
+    --muted: 37 39% 94%;
+    --muted-foreground: 45 6% 35%;
+    --accent: 39 35% 90%;
+    --accent-foreground: 60 3% 8%;
+    --destructive: 0 53% 52%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 22% 87%;
+    --input: 30 22% 87%;
+    --ring: 15 46% 45%;
+    --radius: 0.5rem;
+    --canvas: 48 33% 97%;
+    --ink: 60 3% 8%;
+    --body: 60 3% 20%;
+    --body-strong: 60 3% 14%;
+    --hairline: 30 22% 87%;
+    --hairline-soft: 35 23% 90%;
+    --surface-soft: 37 39% 94%;
+    --surface-card: 39 35% 90%;
+    --surface-cream-strong: 38 32% 87%;
+    --surface-dark: 40 7% 9%;
+    --surface-dark-elevated: 36 7% 14%;
+    --surface-dark-soft: 45 7% 11%;
+    --on-dark: 48 33% 97%;
+    --on-dark-soft: 42 5% 61%;
+    --accent-teal: 168 39% 54%;
+    --accent-amber: 32 76% 63%;
+    --success: 134 39% 54%;
+    --warning: 43 80% 46%;
+    --error: 0 53% 52%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+}

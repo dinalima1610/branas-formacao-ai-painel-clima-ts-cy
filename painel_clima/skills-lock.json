@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "context7": {
+      "source": "pedronauck/skills",
+      "sourceType": "github",
+      "skillPath": "skills/curated/context7/SKILL.md",
+      "computedHash": "74462007e7013b4c4eea818b3a5bd50cfa8641f4c12135877fc9f082249d984d"
+    }
+  }
+}

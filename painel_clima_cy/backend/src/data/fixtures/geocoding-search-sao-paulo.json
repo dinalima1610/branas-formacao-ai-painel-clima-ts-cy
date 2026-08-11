@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "id": 3448439,
+      "name": "São Paulo",
+      "latitude": -23.5475,
+      "longitude": -46.63611,
+      "country": "Brasil",
+      "admin1": "São Paulo"
+    },
+    {
+      "id": 6322752,
+      "name": "São Paulo",
+      "latitude": -23.53333,
+      "longitude": -46.61667,
+      "country": "Brasil",
+      "admin1": "São Paulo"
+    },
+    {
+      "id": 2988507,
+      "name": "Saint-Paul",
+      "latitude": 48.0,
+      "longitude": 2.0,
+      "country": "França",
+      "admin1": "Centro"
+    }
+  ]
+}

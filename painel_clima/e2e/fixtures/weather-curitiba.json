@@ -1,0 +1,35 @@
+{
+  "attribution": {
+    "provider": "Open-Meteo",
+    "url": "https://open-meteo.com"
+  },
+  "city": {
+    "country": "Brasil",
+    "countryCode": "BR",
+    "id": "curitiba-br",
+    "latitude": -25.43,
+    "longitude": -49.27,
+    "name": "Curitiba",
+    "region": "Parana",
+    "timezone": "America/Sao_Paulo"
+  },
+  "current": {
+    "description": "Ceu limpo",
+    "feelsLikeC": 23,
+    "humidityPercent": 64,
+    "icon": "sun",
+    "observedAt": "2026-05-13T09:00:00-03:00",
+    "temperatureC": 24,
+    "weatherCode": 0,
+    "windSpeedKmh": 12
+  },
+  "daily": [
+    { "date": "2026-05-13", "description": "Ceu limpo", "icon": "sun", "maxTemperatureC": 26, "minTemperatureC": 16, "weatherCode": 0 },
+    { "date": "2026-05-14", "description": "Chuva moderada", "icon": "cloud-rain", "maxTemperatureC": 25, "minTemperatureC": 17, "weatherCode": 63 },
+    { "date": "2026-05-15", "description": "Ceu limpo", "icon": "sun", "maxTemperatureC": 27, "minTemperatureC": 18, "weatherCode": 0 },
+    { "date": "2026-05-16", "description": "Parcialmente nublado", "icon": "cloud-sun", "maxTemperatureC": 24, "minTemperatureC": 15, "weatherCode": 2 },
+    { "date": "2026-05-17", "description": "Ceu limpo", "icon": "sun", "maxTemperatureC": 28, "minTemperatureC": 19, "weatherCode": 0 },
+    { "date": "2026-05-18", "description": "Neblina", "icon": "fog", "maxTemperatureC": 23, "minTemperatureC": 14, "weatherCode": 45 },
+    { "date": "2026-05-19", "description": "Ceu limpo", "icon": "sun", "maxTemperatureC": 29, "minTemperatureC": 20, "weatherCode": 0 }
+  ]
+}

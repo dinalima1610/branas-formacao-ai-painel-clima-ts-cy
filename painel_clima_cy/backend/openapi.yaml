@@ -1,0 +1,302 @@
+openapi: 3.0.3
+info:
+  title: IA para Devs Weather API
+  version: 1.0.0
+  description: Public read-only backend proxy for Open-Meteo place and weather data.
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      summary: Check backend health
+      responses:
+        '200':
+          description: Backend is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, timestamp]
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+  /places/search:
+    get:
+      summary: Search places by name
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+            minLength: 2
+          example: São Paulo
+        - in: query
+          name: count
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+            default: 5
+      responses:
+        '200':
+          description: Matching place candidates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacesResponse'
+        '400':
+          $ref: '#/components/responses/InvalidQuery'
+        '404':
+          $ref: '#/components/responses/PlaceNotFound'
+        '502':
+          $ref: '#/components/responses/UpstreamWeatherError'
+  /places/reverse:
+    get:
+      summary: Resolve coordinates to places or a coordinate fallback
+      parameters:
+        - in: query
+          name: latitude
+          required: true
+          schema:
+            type: number
+            minimum: -90
+            maximum: 90
+          example: -23.55
+        - in: query
+          name: longitude
+          required: true
+          schema:
+            type: number
+            minimum: -180
+            maximum: 180
+          example: -46.63
+      responses:
+        '200':
+          description: Matching place candidates, or a coordinate fallback when reverse geocoding is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacesResponse'
+        '400':
+          $ref: '#/components/responses/InvalidQuery'
+        '404':
+          $ref: '#/components/responses/PlaceNotFound'
+        '502':
+          $ref: '#/components/responses/UpstreamWeatherError'
+  /weather:
+    get:
+      summary: Get current, hourly, and daily weather for coordinates
+      parameters:
+        - in: query
+          name: latitude
+          required: true
+          schema:
+            type: number
+            minimum: -90
+            maximum: 90
+          example: -23.55
+        - in: query
+          name: longitude
+          required: true
+          schema:
+            type: number
+            minimum: -180
+            maximum: 180
+          example: -46.63
+        - in: query
+          name: temperatureUnit
+          required: true
+          schema:
+            $ref: '#/components/schemas/TemperatureUnit'
+      responses:
+        '200':
+          description: Aggregated weather panel payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherPanelPayload'
+        '400':
+          $ref: '#/components/responses/InvalidQuery'
+        '404':
+          $ref: '#/components/responses/PlaceNotFound'
+        '422':
+          $ref: '#/components/responses/InvalidQuery'
+        '502':
+          $ref: '#/components/responses/UpstreamWeatherError'
+components:
+  responses:
+    InvalidQuery:
+      description: Malformed or unsupported query parameter
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: INVALID_QUERY
+            message: Query parameter "q" is required
+    PlaceNotFound:
+      description: No matching place was found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: PLACE_NOT_FOUND
+            message: No matching place was found
+    UpstreamWeatherError:
+      description: Open-Meteo request failed or returned invalid data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: UPSTREAM_WEATHER_ERROR
+            message: Weather data provider is unavailable
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [INVALID_QUERY, PLACE_NOT_FOUND, UPSTREAM_WEATHER_ERROR, INTERNAL_SERVER_ERROR]
+        message:
+          type: string
+    TemperatureUnit:
+      type: string
+      enum: [celsius, fahrenheit]
+    WindSpeedUnit:
+      type: string
+      enum: [kmh, mph]
+    WeatherIconKey:
+      type: string
+      enum: [sunny, partly-cloudy, cloudy, fog, drizzle, rain, snow, thunderstorm, unknown]
+    PlaceCandidate:
+      type: object
+      required: [id, name, country, latitude, longitude, label]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        admin1:
+          type: string
+        country:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        label:
+          type: string
+          example: São Paulo, São Paulo, Brasil
+    PlacesResponse:
+      type: object
+      required: [places]
+      properties:
+        places:
+          type: array
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/PlaceCandidate'
+    CurrentConditions:
+      type: object
+      required:
+        - temperature
+        - apparentTemperature
+        - humidity
+        - windSpeed
+        - windSpeedUnit
+        - weatherCode
+        - conditionLabel
+        - conditionIconKey
+        - isDay
+      properties:
+        temperature:
+          type: number
+        apparentTemperature:
+          type: number
+        humidity:
+          type: number
+          minimum: 0
+          maximum: 100
+        windSpeed:
+          type: number
+        windSpeedUnit:
+          $ref: '#/components/schemas/WindSpeedUnit'
+        weatherCode:
+          type: integer
+        conditionLabel:
+          type: string
+          example: Chuva leve
+        conditionIconKey:
+          $ref: '#/components/schemas/WeatherIconKey'
+        isDay:
+          type: boolean
+    HourlyForecastSlot:
+      type: object
+      required: [time, temperature, weatherCode, conditionLabel, conditionIconKey]
+      properties:
+        time:
+          type: string
+          format: date-time
+        temperature:
+          type: number
+        weatherCode:
+          type: integer
+        conditionLabel:
+          type: string
+        conditionIconKey:
+          $ref: '#/components/schemas/WeatherIconKey'
+    DailyForecastSlot:
+      type: object
+      required: [date, temperatureMin, temperatureMax, weatherCode, conditionLabel, conditionIconKey]
+      properties:
+        date:
+          type: string
+          format: date
+        temperatureMin:
+          type: number
+        temperatureMax:
+          type: number
+        weatherCode:
+          type: integer
+        conditionLabel:
+          type: string
+        conditionIconKey:
+          $ref: '#/components/schemas/WeatherIconKey'
+    WeatherPanelPayload:
+      type: object
+      required: [place, current, hourly, daily, meta]
+      properties:
+        place:
+          $ref: '#/components/schemas/PlaceCandidate'
+        current:
+          $ref: '#/components/schemas/CurrentConditions'
+        hourly:
+          type: array
+          minItems: 24
+          maxItems: 24
+          items:
+            $ref: '#/components/schemas/HourlyForecastSlot'
+        daily:
+          type: array
+          minItems: 3
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/DailyForecastSlot'
+        meta:
+          type: object
+          required: [fetchedAt, temperatureUnit]
+          properties:
+            fetchedAt:
+              type: string
+              format: date-time
+            temperatureUnit:
+              $ref: '#/components/schemas/TemperatureUnit'

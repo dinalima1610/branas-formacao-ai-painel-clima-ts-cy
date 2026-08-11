@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+coverage/
+
+# Test outputs
+test-results/
+playwright-report/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# Local agent/tool state
+.codex/
+.playwright-mcp/
+.config/
+!.config/
+!.config/ai/
+!.config/ai/rules/
+!.config/ai/rules/**
+
+# Educational agent skills are part of the published process material.
+.agents/**/__pycache__/
+.agents/**/*.pyc
+
+# TypeScript/Vite cache
+*.tsbuildinfo
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

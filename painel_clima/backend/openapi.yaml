@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: Weather API
+  version: 1.0.0
+  description: Public weather panel API backed by Open-Meteo.
+paths:
+  /api/v1/cities/search:
+    get:
+      summary: Search cities by name
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: City name with at least 2 characters.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+          description: Maximum number of cities returned.
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Provider response language.
+      responses:
+        "200":
+          description: City list response.
+        "400":
+          description: Malformed input.
+        "422":
+          description: Validation error.
+        "502":
+          description: External provider error.
+  /api/v1/weather:
+    get:
+      summary: Get current weather and 7 day forecast
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Latitude between -90 and 90.
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Longitude between -180 and 180.
+        - name: cityId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Selected city identifier.
+        - name: cityName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Selected city name.
+        - name: region
+          in: query
+          required: false
+          schema:
+            type: string
+          description: State or administrative region.
+        - name: country
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Country name.
+        - name: countryCode
+          in: query
+          required: false
+          schema:
+            type: string
+          description: ISO country code.
+        - name: timezone
+          in: query
+          required: false
+          schema:
+            type: string
+          description: IANA timezone.
+      responses:
+        "200":
+          description: Canonical weather snapshot response.
+        "400":
+          description: Malformed input.
+        "422":
+          description: Validation error.
+        "502":
+          description: External provider error.

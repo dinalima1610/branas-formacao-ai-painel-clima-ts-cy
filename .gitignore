@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+/package.json
+/package-lock.json
+
+# Build outputs
+dist/
+dist-ssr/
+coverage/
+
+# Test outputs
+test-results/
+playwright-report/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# Local agent/tool state
+.agents/
+.codex/
+.playwright-mcp/
+.config/
+!painel_clima/.agents/
+!painel_clima/.agents/**
+painel_clima/.agents/**/__pycache__/
+painel_clima/.agents/**/*.pyc
+!painel_clima_cy/.agents/
+!painel_clima_cy/.agents/**
+painel_clima_cy/.agents/**/__pycache__/
+painel_clima_cy/.agents/**/*.pyc
+!painel_clima/.config/
+!painel_clima/.config/ai/
+!painel_clima/.config/ai/rules/
+!painel_clima/.config/ai/rules/**
+
+# TypeScript/Vite cache
+*.tsbuildinfo
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
