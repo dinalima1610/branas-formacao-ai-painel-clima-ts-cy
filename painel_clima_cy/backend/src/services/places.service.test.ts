@@ -93,4 +93,87 @@ describe('PlacesService', () => {
       }
     ]);
   });
+
+  it('uses reverse fallback client before returning coordinates', async () => {
+    const client: PlacesServiceClient = {
+      search: vi.fn(async () => []),
+      reverse: vi.fn(async () => {
+        throw new UpstreamWeatherError('Open-Meteo reverse geocoding request failed');
+      })
+    };
+    const fallbackClient: Pick<PlacesServiceClient, 'reverse'> = {
+      reverse: vi.fn(async () => [
+        {
+          id: 'coordinates--25.4278--49.2731',
+          name: 'Curitiba',
+          latitude: -25.42778,
+          longitude: -49.27306,
+          country: 'Brasil',
+          admin1: 'Parana'
+        }
+      ])
+    };
+    const service = new PlacesService(client, fallbackClient);
+
+    const places = await service.reverse(-25.42778, -49.27306);
+
+    expect(places).toEqual([
+      {
+        id: 'coordinates--25.4278--49.2731',
+        name: 'Curitiba',
+        admin1: 'Parana',
+        country: 'Brasil',
+        latitude: -25.42778,
+        longitude: -49.27306,
+        label: 'Curitiba, Parana, Brasil'
+      }
+    ]);
+    expect(fallbackClient.reverse).toHaveBeenCalledWith({
+      latitude: -25.42778,
+      longitude: -49.27306,
+      count: 5
+    });
+  });
+
+  it('returns coordinate fallback when reverse fallback client has no matches', async () => {
+    const client: PlacesServiceClient = {
+      search: vi.fn(async () => []),
+      reverse: vi.fn(async () => {
+        throw new UpstreamWeatherError('Open-Meteo reverse geocoding request failed');
+      })
+    };
+    const fallbackClient: Pick<PlacesServiceClient, 'reverse'> = {
+      reverse: vi.fn(async () => [])
+    };
+    const service = new PlacesService(client, fallbackClient);
+
+    const places = await service.reverse(-25.42778, -49.27306);
+
+    expect(places[0]).toMatchObject({
+      name: 'Local atual',
+      label: 'Local atual (-25.43, -49.27)'
+    });
+  });
+
+  it('returns coordinate fallback when reverse fallback client is unavailable', async () => {
+    const client: PlacesServiceClient = {
+      search: vi.fn(async () => []),
+      reverse: vi.fn(async () => {
+        throw new UpstreamWeatherError('Open-Meteo reverse geocoding request failed');
+      })
+    };
+    const fallbackClient: Pick<PlacesServiceClient, 'reverse'> = {
+      reverse: vi.fn(async () => {
+        throw new UpstreamWeatherError('Nominatim reverse geocoding request failed');
+      })
+    };
+    const service = new PlacesService(client, fallbackClient);
+
+    const places = await service.reverse(-25.42778, -49.27306);
+
+    expect(places[0]).toMatchObject({
+      name: 'Local atual',
+      label: 'Local atual (-25.43, -49.27)'
+    });
+  });
 });

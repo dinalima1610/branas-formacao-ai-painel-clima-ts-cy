@@ -5,6 +5,7 @@ import { createPlacesRouter } from './controllers/places.controller';
 import { createWeatherRouter } from './controllers/weather.controller';
 import { OpenMeteoForecastClient } from './data/clients/open-meteo-forecast.client';
 import { OpenMeteoGeocodingClient } from './data/clients/open-meteo-geocoding.client';
+import { NominatimReverseGeocodingClient } from './data/clients/nominatim-reverse-geocoding.client';
 import { PlacesService } from './services/places.service';
 import { WeatherService } from './services/weather.service';
 
@@ -15,8 +16,9 @@ export interface AppDependencies {
 export const createApp = (dependencies: AppDependencies = {}): Express => {
   const app: Express = express();
   const geocodingClient = new OpenMeteoGeocodingClient({ fetchClient: dependencies.fetchClient });
+  const reverseFallbackClient = new NominatimReverseGeocodingClient({ fetchClient: dependencies.fetchClient });
   const forecastClient = new OpenMeteoForecastClient({ fetchClient: dependencies.fetchClient });
-  const placesService = new PlacesService(geocodingClient);
+  const placesService = new PlacesService(geocodingClient, reverseFallbackClient);
   const weatherService = new WeatherService(forecastClient, placesService);
 
   app.use(cors());

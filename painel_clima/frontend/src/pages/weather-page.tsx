@@ -31,6 +31,7 @@ function WeatherPageContent() {
   const [currentLocationCity, setCurrentLocationCity] = useState<City | null>(null)
   const [currentLocationSource, setCurrentLocationSource] = useState<LocationSuggestion['source'] | null>(null)
   const [isCurrentLocationWeather, setIsCurrentLocationWeather] = useState(false)
+  const [isUsingCurrentLocation, setIsUsingCurrentLocation] = useState(false)
   const [unitSystem, setUnitSystem] = useState<UnitSystem>('metric')
   const [weatherRequest, setWeatherRequest] = useState<WeatherRequest | null>(null)
   const citySearch = useCitySearch(query)
@@ -60,24 +61,34 @@ function WeatherPageContent() {
   }
 
   async function handleUseCurrentLocation(): Promise<void> {
-    const coordinates = await geolocation.requestLocation()
-
-    if (coordinates === null) {
+    if (isUsingCurrentLocation) {
       return
     }
 
-    const currentLocation = await getCurrentLocationCity(coordinates)
-    const currentCity = currentLocation?.city ?? null
-    const cityLabel = currentCity === null ? messages.geolocation.currentLocation : formatCityLabel(currentCity)
-    setCurrentLocationCity(currentCity)
-    setCurrentLocationSource(currentLocation?.source ?? null)
-    setIsCurrentLocationWeather(true)
-    setWeatherRequest({
-      city: currentCity ?? undefined,
-      cityLabel,
-      lat: coordinates.latitude,
-      lon: coordinates.longitude,
-    })
+    setIsUsingCurrentLocation(true)
+
+    try {
+      const coordinates = await geolocation.requestLocation()
+
+      if (coordinates === null) {
+        return
+      }
+
+      const currentLocation = await getCurrentLocationCity(coordinates)
+      const currentCity = currentLocation?.city ?? null
+      const cityLabel = currentCity === null ? messages.geolocation.currentLocation : formatCityLabel(currentCity)
+      setCurrentLocationCity(currentCity)
+      setCurrentLocationSource(currentLocation?.source ?? null)
+      setIsCurrentLocationWeather(true)
+      setWeatherRequest({
+        city: currentCity ?? undefined,
+        cityLabel,
+        lat: coordinates.latitude,
+        lon: coordinates.longitude,
+      })
+    } finally {
+      setIsUsingCurrentLocation(false)
+    }
   }
 
   return (
@@ -113,14 +124,14 @@ function WeatherPageContent() {
               <UnitSystemToggle onChange={setUnitSystem} value={unitSystem} />
               <button
                 className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-md border border-[#a9583e] bg-[#faf9f5] px-4 text-sm font-medium text-[#141413] transition-colors hover:bg-[#f5f0e8] focus:outline-none focus:ring-4 focus:ring-[#a9583e]/25 disabled:cursor-not-allowed disabled:opacity-60"
-                disabled={geolocation.status === 'requesting' || weather.status === 'loading'}
+                disabled={isUsingCurrentLocation}
                 onClick={() => {
                   void handleUseCurrentLocation()
                 }}
                 type="button"
               >
                 <LocateFixed aria-hidden="true" className="size-4 text-[#a9583e]" />
-                {geolocation.status === 'requesting' ? messages.geolocation.requesting : messages.geolocation.action}
+                {isUsingCurrentLocation ? messages.geolocation.requesting : messages.geolocation.action}
               </button>
             </div>
           </div>

@@ -14,9 +14,14 @@ export interface PlacesServiceClient {
 
 export class PlacesService {
   private readonly geocodingClient: PlacesServiceClient;
+  private readonly reverseFallbackClient?: Pick<PlacesServiceClient, 'reverse'>;
 
-  constructor(geocodingClient: PlacesServiceClient = new OpenMeteoGeocodingClient()) {
+  constructor(
+    geocodingClient: PlacesServiceClient = new OpenMeteoGeocodingClient(),
+    reverseFallbackClient?: Pick<PlacesServiceClient, 'reverse'>
+  ) {
     this.geocodingClient = geocodingClient;
+    this.reverseFallbackClient = reverseFallbackClient;
   }
 
   async search(query: string, count = MAX_PLACE_CANDIDATES): Promise<PlaceCandidate[]> {
@@ -39,7 +44,35 @@ export class PlacesService {
       return toPlaceCandidates(places);
     } catch (error) {
       if (error instanceof PlaceNotFoundError || error instanceof UpstreamWeatherError) {
+        const fallbackPlaces = await this.reverseWithFallbackClient(latitude, longitude);
+
+        if (fallbackPlaces.length > 0) {
+          return fallbackPlaces;
+        }
+
         return [toCoordinatePlaceCandidate(latitude, longitude)];
+      }
+
+      throw error;
+    }
+  }
+
+  private async reverseWithFallbackClient(latitude: number, longitude: number): Promise<PlaceCandidate[]> {
+    if (this.reverseFallbackClient === undefined) {
+      return [];
+    }
+
+    try {
+      const places = await this.reverseFallbackClient.reverse({
+        latitude,
+        longitude,
+        count: MAX_PLACE_CANDIDATES
+      });
+
+      return toPlaceCandidates(places);
+    } catch (error) {
+      if (error instanceof PlaceNotFoundError || error instanceof UpstreamWeatherError) {
+        return [];
       }
 
       throw error;

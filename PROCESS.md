@@ -71,7 +71,7 @@ O padrão de qualidade exigido no curso baseou-se em gates automatizados e docum
 
 As correções posteriores de QA são registradas como novos arquivos de evidência/bugfix, preservando os relatórios originais como histórico da reprovação.
 
-Além do BUG-01 de contraste, houve uma correção funcional pós-MVP no fluxo de geolocalização do `painel_clima`. O comportamento observado em uso real mostrou que o card de clima congelava o texto "Minha localização/My location" no idioma ativo no momento da consulta, porque a string traduzida era salva como dado da requisição. Ao enriquecer o card com cidade/estado/país, também ficou claro que a especificação inicial não previa geocodificação reversa para nomear coordenadas autorizadas pelo navegador.
+Além do BUG-01 de contraste, houve correções funcionais pós-MVP no fluxo de geolocalização. No `painel_clima`, o comportamento observado em uso real mostrou que o card de clima congelava o texto "Minha localização/My location" no idioma ativo no momento da consulta, porque a string traduzida era salva como dado da requisição. Também foi corrigido o estado do botão "Usar minha localização/Use my location", que podia permanecer desabilitado após a primeira tentativa quando a consulta de clima continuava pendente. Ao enriquecer o card com cidade/estado/país, ficou claro que a especificação inicial não previa geocodificação reversa para nomear coordenadas autorizadas pelo navegador.
 
 A correção separou três responsabilidades:
 
@@ -79,7 +79,9 @@ A correção separou três responsabilidades:
 - o prefixo "Minha localização/My location" é sempre derivado da língua ativa;
 - a cidade, estado/região e país são obtidos por geocodificação reversa no backend quando possível, usando Google Geocoding se configurado e Nominatim/OpenStreetMap como fallback.
 
-Essa adequação fugiu das especificações iniciais dos arquivos de PRD/Tech Spec/Tasks, que cobriam geolocalização opt-in e clima por coordenadas, mas não detalhavam tradução dinâmica do título do card nem enriquecimento reverso de coordenadas. A alteração foi mantida por melhorar clareza, acessibilidade cognitiva e consistência internacionalizada sem mudar o provedor de clima.
+No `painel_clima_cy`, a correção posterior replicou o enriquecimento do card de geolocalização: quando o reverse geocoding da Open-Meteo não retorna uma cidade, o backend tenta Nominatim/OpenStreetMap antes de usar o fallback "Local atual (lat, lon)".
+
+Essa adequação fugiu das especificações iniciais dos arquivos de PRD/Tech Spec/Tasks, que cobriam geolocalização opt-in e clima por coordenadas, mas não detalhavam tradução dinâmica do título do card, reabilitação explícita do botão de localização nem enriquecimento reverso de coordenadas. A alteração foi mantida por melhorar clareza, acessibilidade cognitiva e consistência internacionalizada sem mudar o provedor de clima.
 
 No projeto, é possível perceber este processo em [painel_clima/tasks](painel_clima/tasks/):
 
@@ -139,6 +141,15 @@ Para a correção pós-MVP de geolocalização no `painel_clima`, a validação 
 - `npm test --prefix painel_clima/backend -- --run`: 8 arquivos, 34 testes aprovados.
 - `npm run typecheck --prefix painel_clima/frontend`: aprovado.
 - `npm run build --prefix painel_clima/backend`: aprovado.
+
+Para as correções recentes de geolocalização e card de localização atual, a validação executada foi:
+
+- `npm test --prefix painel_clima/frontend -- src/pages/weather-page.test.tsx`: 12 testes aprovados.
+- `npm run typecheck --prefix painel_clima/frontend`: aprovado.
+- `npm test --prefix painel_clima_cy/backend`: 28 testes aprovados com cobertura global acima dos thresholds.
+- `npm run build --prefix painel_clima_cy/backend`: aprovado.
+- `npm test --prefix painel_clima_cy/frontend -- src/features/weather-panel/components/WeatherPanel.test.tsx`: 10 testes aprovados.
+- `npm run typecheck --prefix painel_clima_cy/frontend`: aprovado.
 
 ---
 

@@ -13,7 +13,11 @@ describe('api-config', () => {
   });
 
   it('falls back to the local backend when VITE_API_BASE_URL is unset', () => {
-    expect(getApiBaseUrl({})).toBe(defaultApiBaseUrl);
+    expect(getApiBaseUrl({ DEV: true })).toBe(defaultApiBaseUrl);
+  });
+
+  it('requires VITE_API_BASE_URL outside development mode', () => {
+    expect(() => getApiBaseUrl({ DEV: false })).toThrow('VITE_API_BASE_URL must be set for public builds.');
   });
 
   it('builds API URLs from the shared base URL', () => {

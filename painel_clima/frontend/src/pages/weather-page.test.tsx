@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -77,6 +77,48 @@ describe('WeatherPage', () => {
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
     expect(await screen.findByRole('heading', { name: '24°C' })).toBeInTheDocument()
+  })
+
+  it('should re-enable geolocation action after resolving the location request', async () => {
+    const getCurrentPosition = mockGeolocationSuccess()
+    const fetchMock = vi.fn(async (input: unknown) => {
+      const url = String(input)
+
+      if (url.includes('/api/v0/locations/reverse')) {
+        return createJsonResponse({
+          confidence: 'high',
+          location: {
+            admin1: 'Parana',
+            country: 'Brasil',
+            countryCode: 'BR',
+            id: 'coordinates:-25.4300,-49.2700',
+            latitude: -25.43,
+            longitude: -49.27,
+            name: 'Curitiba',
+            timezone: 'America/Sao_Paulo',
+          },
+          message: 'Localizacao encontrada.',
+          source: 'google-geocoding',
+        })
+      }
+
+      return new Promise<Response>(() => undefined)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    render(<WeatherPage />)
+    const locationButton = screen.getByRole('button', { name: /Usar minha localiza/i })
+
+    await userEvent.click(locationButton)
+
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/api/v0/locations/reverse'), expect.any(Object)),
+    )
+    await waitFor(() => expect(locationButton).toBeEnabled())
+
+    await userEvent.click(locationButton)
+
+    expect(getCurrentPosition).toHaveBeenCalledTimes(2)
   })
 
   it('should translate current location title after switching from Portuguese to English', async () => {

@@ -47,7 +47,7 @@ A organização de diretórios do projeto divide-se em pastas principais:
     *   [`painel_clima_cy/.agents/`](painel_clima_cy/.agents): Contém as skills locais publicáveis que sustentam o fluxo Compozy/CY, incluindo criação de PRD, tech spec, tasks, memória, QA, reviews, correções e verificação final.
     *   [`painel_clima_cy/backend/src/controllers/`](painel_clima_cy/backend/src/controllers): Controladores separados para `/places` e `/weather`, além de manipuladores globais de erro.
     *   [`painel_clima_cy/backend/src/services/`](painel_clima_cy/backend/src/services): Lógica de negócio desacoplada (serviços de clima e geocodificação).
-    *   [`painel_clima_cy/backend/src/data/clients/`](painel_clima_cy/backend/src/data/clients): Clientes HTTP desacoplados para APIs de busca e previsão do tempo da Open-Meteo.
+    *   [`painel_clima_cy/backend/src/data/clients/`](painel_clima_cy/backend/src/data/clients): Clientes HTTP desacoplados para APIs de busca e previsão do tempo da Open-Meteo, além do fallback Nominatim/OpenStreetMap para geocodificação reversa.
     *   [`painel_clima_cy/frontend/src/features/weather-panel/`](painel_clima_cy/frontend/src/features/weather-panel): Componentes atômicos e isolados de UI (`WeatherSearch`, `CurrentConditions`, `DailyForecast`, `HourlyForecast`, `UnitToggle`) e hooks customizados.
 
 *   [`docs/evidencias/compozy/`](docs/evidencias/compozy): Imagens capturadas que documentam a execução das tarefas por meio do Compozy local.
@@ -77,7 +77,7 @@ O backend atua como um BFF e está estruturado com base nas boas práticas de de
     - `GET /places/reverse`
     - `GET /weather`
 
-*   **Geocodificação Reversa Pós-MVP**: A busca por "Minha localização" obtém coordenadas pelo navegador e, em seguida, o backend tenta resolver cidade, estado/região e país. O fluxo usa Google Geocoding quando `GOOGLE_GEOCODING_API_KEY` estiver configurada e Nominatim/OpenStreetMap como fallback sem chave. Se nenhum provedor retornar cidade confiável, o card mantém apenas o rótulo traduzível "Minha localização/My location".
+*   **Geocodificação Reversa Pós-MVP**: A busca por localização atual obtém coordenadas pelo navegador e, em seguida, o backend tenta resolver cidade, estado/região e país. No `painel_clima`, o fluxo usa Google Geocoding quando `GOOGLE_GEOCODING_API_KEY` estiver configurada e Nominatim/OpenStreetMap como fallback sem chave. No `painel_clima_cy`, o fluxo tenta o reverse geocoding da Open-Meteo primeiro, depois Nominatim/OpenStreetMap, e só então cai no rótulo por coordenadas como último recurso.
 *   **Normalização de Códigos WMO (Weather Interpretation Codes)**: Os códigos numéricos de condições climáticas são mapeados em tempo de execução para strings em português (PT-BR) e ícones semânticos, devolvendo payloads prontos para renderização.
 *   **Validação rigorosa**: Utilização do Zod para assegurar que todas as queries de latitude, longitude e termos de busca estejam sanitizadas antes de serem encaminhadas para as APIs de terceiros.
 
@@ -112,10 +112,10 @@ No [painel_clima_cy](painel_clima_cy/), a feature está em [painel_clima_cy/fron
 
 ## 🔌 Integração Frontend/Backend
 
-*   **Comunicação Indireta**: O frontend consome exclusivamente a API local do backend em `http://localhost:3000`, respeitando as regras do PRD de que nenhuma chamada direta à API externa de Open-Meteo deve ser realizada pelo cliente.
+*   **Comunicação Indireta**: O frontend consome exclusivamente o backend do próprio projeto, localmente via `http://localhost:3000` ou publicamente via URL configurada em `VITE_*`, respeitando as regras do PRD de que nenhuma chamada direta à API externa de Open-Meteo deve ser realizada pelo cliente.
 *   **CORS (Cross-Origin Resource Sharing)**: O backend expõe configurações de CORS flexíveis por meio de variáveis de ambiente para permitir que o cliente em desenvolvimento consuma os recursos sem bloqueios do navegador.
 *   **Abstração de Transporte**: O cliente frontend (`weather-api.ts` ou `weather-client.ts`) encapsula o uso do `fetch` nativo e do `AbortController` para abortar requisições pendentes caso o usuário realize novas pesquisas em sequência.
-*   **Rótulo de Localização Atual**: O frontend mantém um marcador explícito de consulta por geolocalização para que o prefixo "Minha localização/My location" acompanhe a língua escolhida. A cidade resolvida por geocodificação reversa é tratada como detalhe exibível, não como texto traduzido fixo salvo no estado.
+*   **Rótulo de Localização Atual**: No `painel_clima`, o frontend mantém um marcador explícito de consulta por geolocalização para que o prefixo "Minha localização/My location" acompanhe a língua escolhida. A cidade resolvida por geocodificação reversa é tratada como detalhe exibível, não como texto traduzido fixo salvo no estado. No `painel_clima_cy`, o card renderiza o `place.label` devolvido pelo backend, agora enriquecido por fallback Nominatim/OpenStreetMap quando o reverse geocoding principal não resolve uma cidade.
 
 Contratos documentados:
 
@@ -124,9 +124,17 @@ Contratos documentados:
 
 ---
 
+## Deploy da Demo Pública
+
+Para publicação como demo de portfólio, cada backend Express possui um entrypoint serverless separado em `backend/api/index.ts`, consumido pela Vercel por meio de `backend/vercel.json`. O entrypoint local `backend/src/index.ts` continua responsável por `app.listen(...)`, preservando a execução por clone em `localhost`.
+
+Os frontends não versionam URLs reais dos backends públicos. Em desenvolvimento, usam o backend local; no build público, dependem das variáveis `VITE_API_URL` (`painel_clima`) e `VITE_API_BASE_URL` (`painel_clima_cy`), configuradas fora do código.
+
+---
+
 ## ⚠️ Limitações Técnicas
 
 *   **Ausência de Caching**: As requisições de clima, busca textual e geocodificação reversa batem diretamente nos provedores por meio do backend a cada consulta, sem persistência local ou camada de cache (ex: Redis) e o frontend depende do backend local para obter dados climáticos.
-*   **Dependências Externas**: A aplicação depende da integridade e disponibilidade da API gratuita da Open-Meteo para dados meteorológicos. A geocodificação reversa de "Minha localização" depende de Google Geocoding quando configurado ou de Nominatim/OpenStreetMap como fallback; falhas nessa etapa não impedem a consulta climática por coordenadas.
-*   **Ajuste fora da especificação inicial**: A especificação original validava geolocalização por coordenadas, mas não exigia nomear a localização atual com cidade/estado/país nem preservar esse rótulo durante troca de idioma. Essa capacidade foi adicionada como correção pós-MVP motivada por uso real.
+*   **Dependências Externas**: A aplicação depende da integridade e disponibilidade da API gratuita da Open-Meteo para dados meteorológicos. A geocodificação reversa da localização atual depende de Google Geocoding quando configurado no `painel_clima`, do reverse geocoding da Open-Meteo no `painel_clima_cy` e de Nominatim/OpenStreetMap como fallback; falhas nessa etapa não impedem a consulta climática por coordenadas.
+*   **Ajuste fora da especificação inicial**: A especificação original validava geolocalização por coordenadas, mas não exigia nomear a localização atual com cidade/estado/país, preservar esse rótulo durante troca de idioma nem reabilitar explicitamente o botão de localização após a etapa de coordenadas. Essas capacidades foram adicionadas como correções pós-MVP motivadas por uso real.
 *   **Internacionalização**: Cobre somente Português e Inglês.

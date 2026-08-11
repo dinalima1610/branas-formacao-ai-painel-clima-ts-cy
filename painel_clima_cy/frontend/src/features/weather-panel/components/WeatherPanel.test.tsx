@@ -219,6 +219,7 @@ describe('WeatherPanel', () => {
     await userEvent.click(screen.getByRole('button', { name: /usar minha localização/i }));
 
     await waitFor(() => expect(fetchMock.mock.calls[0][0].toString()).toContain('/places/reverse?'));
+    expect(await screen.findByText(saoPaulo.label)).toBeInTheDocument();
     expect((await screen.findAllByText('20°C')).length).toBeGreaterThan(0);
   });
 

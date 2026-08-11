@@ -2,11 +2,11 @@
 
 O **Painel de Clima** é uma aplicação completa (Fullstack) desenvolvida como parte da **Formação em Inteligência Artificial** da [Branas Tecnologia](https://www.branas.io/formacoes/inteligencia-artificial) no módulo "Processo de Desenvolvimento com IA". 
 
-A aplicação permite aos usuários consultarem de forma ágil as condições climáticas atuais e a previsão do tempo para os próximos 7 dias de qualquer cidade do mundo. A busca pode ser feita de forma textual (com autocomplete) ou por geolocalização automática do navegador.
+A aplicação permite aos usuários consultarem de forma ágil as condições climáticas atuais e a previsão do tempo para os próximos 7 dias de qualquer cidade do mundo. A busca pode ser feita de forma textual (com autocomplete) ou por geolocalização autorizada explicitamente pelo navegador.
 
 Toda a comunicação com o provedor de clima externo **Open-Meteo** é realizada exclusivamente via backend do projeto, atuando como um BFF (Backend-for-Frontend) para garantir a segurança e a conformidade com as restrições arquiteturais, implementado por artefatos de SDD (Spec Driven Development) e validações automatizadas.
 
-Como ferramenta de SDD, o projeto exemplo_10 é a evolução do exemplo_09 estruturado e executado com o fluxo de desenvolvimento assistido por IA a partir de prompts com o apoio do [Compozy](https://github.com/compozy/compozy), release 0.2.4.
+Como ferramenta de SDD, o projeto [painel_clima_cy](painel_clima_cy) é a evolução do [painel_clima](painel_clima) estruturado e executado com o fluxo de desenvolvimento assistido por IA a partir de prompts com o apoio do [Compozy](https://github.com/compozy/compozy), release 0.2.4.
 
 ---
 
@@ -20,7 +20,7 @@ Abaixo, encontram-se demonstrações visuais do funcionamento do Painel de Clima
 
   [Abrir vídeo original: painel_clima - busca por Curitiba, idioma e unidades](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.webm)
 
-- **Painel do Clima by CY (Estrutura modular com rotas `/places` e `/weather`)**
+- **Painel do Clima by CY - Compozy (Estrutura modular com rotas `/places` e `/weather`)**
 
   [![Prévia animada do painel_clima_cy](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.gif)](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.webm)
 
@@ -58,7 +58,7 @@ O projeto teve dois objetivos principais:
 O sistema atende a **19 requisitos funcionais (RF-01 a RF-19)** definidos e validados no fluxo de desenvolvimento:
 
 *   **Busca por Cidade (Autocomplete)**: Digitação mínima de 2 caracteres para busca. Retorna uma lista de cidades correspondentes desambiguando homônimos por estado/país.
-*   **Geolocalização (Opt-in)**: Botão visível para "Usar minha localização", acionando a API de geolocalização do navegador de forma explícita. Quando possível, o backend resolve as coordenadas por geocodificação reversa e o card exibe "Minha localização/My location" junto de cidade, estado/região e país. O fluxo textual continua funcional se a geolocalização for negada.
+*   **Geolocalização (Opt-in)**: Botão visível para "Usar minha localização", acionando a API de geolocalização do navegador de forma explícita. Quando possível, o backend resolve as coordenadas por geocodificação reversa e o card exibe a localização com cidade, estado/região e país. No `painel_clima`, o título usa o prefixo traduzível "Minha localização/My location"; no `painel_clima_cy`, o card exibe o rótulo geográfico resolvido pelo backend. O fluxo textual continua funcional se a geolocalização for negada.
 *   **Exibição do Clima Atual**:
     *   Nome da cidade correspondente, estado/região e país.
     *   Temperatura atual e sensação térmica em graus Celsius.
@@ -173,14 +173,14 @@ O projeto possui comandos de inicialização específicos para cada exemplo devi
 *   Testes e QA.
 *   Artefatos de SDD.
 
-**Observação pós-MVP**: a identificação de cidade/estado/país no card de "Minha localização" foi adicionada após a validação original. A especificação inicial previa geolocalização por coordenadas e exibição de clima, mas não detalhava a necessidade de traduzir dinamicamente o rótulo do card nem de enriquecer a localização atual com geocodificação reversa.
+**Observação pós-MVP**: a identificação de cidade/estado/país no card de geolocalização foi adicionada após a validação original e replicada nos dois subprojetos. A especificação inicial previa geolocalização por coordenadas e exibição de clima, mas não detalhava a necessidade de traduzir dinamicamente o rótulo do card no `painel_clima`, enriquecer a localização atual com geocodificação reversa, nem reabilitar o botão de localização após a etapa de resolução de coordenadas.
 
 ### Fora de Escopo
 *   Autenticação de usuários ou painel de cidades favoritas.
 *   Alertas e notificações de clima severo por push ou e-mail.
 *   Dados históricos de clima.
 *   Mapas de radar interativos.
-*   Novos provedores de clima além da Open-Meteo. A exceção pós-MVP é o uso de geocodificação reversa para nomear a localização atual, sem substituir o provedor de clima.
+*   Novos provedores de clima além da Open-Meteo. A exceção pós-MVP é o uso de provedores de geocodificação reversa para nomear a localização atual, sem substituir o provedor de clima.
 *   Persistência de unidade entre sessões.
 *   Idiomas além de Português e Inglês.
 
