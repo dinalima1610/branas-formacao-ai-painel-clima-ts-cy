@@ -126,9 +126,14 @@ Contratos documentados:
 
 ## Deploy da Demo Pública
 
-Para publicação como demo de portfólio, cada backend Express possui um entrypoint serverless separado em `backend/api/index.ts`, consumido pela Vercel por meio de `backend/vercel.json`. O entrypoint local `backend/src/index.ts` continua responsável por `app.listen(...)`, preservando a execução por clone em `localhost`.
+Para publicação como demo de portfólio, a raiz do repositório possui handlers serverless em `api/` e um `vercel.json` que roteia o mesmo domínio Vercel para os dois backends:
 
-Os frontends não versionam URLs reais dos backends públicos. Em desenvolvimento, usam o backend local; no build público, dependem das variáveis `VITE_API_URL` (`painel_clima`) e `VITE_API_BASE_URL` (`painel_clima_cy`), configuradas fora do código.
+- `https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima` -> backend `painel_clima`
+- `https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy` -> backend `painel_clima_cy`
+
+Cada backend também mantém um entrypoint serverless próprio em `backend/api/index.ts`, permitindo deploy isolado se necessário. O entrypoint local `backend/src/index.ts` continua responsável por `app.listen(...)`, preservando a execução por clone em `localhost`.
+
+Em desenvolvimento, os frontends usam o backend local; no build público, dependem das variáveis `VITE_API_URL` (`painel_clima`) e `VITE_API_BASE_URL` (`painel_clima_cy`), conforme os arquivos `.env.example`.
 
 ---
 

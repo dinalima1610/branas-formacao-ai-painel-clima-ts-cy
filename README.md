@@ -16,11 +16,15 @@ Abaixo, encontram-se demonstrações visuais do funcionamento do Painel de Clima
 
 - **Painel do Clima (BFF com rotas `/api/v1`)**
 
+  Veja o backend público do Painel do Clima na Vercel: [branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima/health](https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima/health)
+
   [![Prévia animada do painel_clima](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.gif)](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.webm)
 
   [Abrir vídeo original: painel_clima - busca por Curitiba, idioma e unidades](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.webm)
 
 - **Painel do Clima by CY - Compozy (Estrutura modular com rotas `/places` e `/weather`)**
+
+  Veja o backend público do Painel do Clima by CY na Vercel: [branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy/health](https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy/health)
 
   [![Prévia animada do painel_clima_cy](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.gif)](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.webm)
 
@@ -157,6 +161,14 @@ O projeto possui comandos de inicialização específicos para cada exemplo devi
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): estrutura do projeto, backend, frontend, integração, contratos e limitações técnicas.
 - [PROCESS.md](PROCESS.md): processo com Compozy, SDD, evidências de execução, publicação, qualidade, testes, aprendizados e registros de correção de QA.
+
+---
+
+## 🌐 Publicação
+
+- [Painel do Clima](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima/frontend/).
+- [Painel do Clima by Compozy](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/frontend/).
+
 
 ---
 

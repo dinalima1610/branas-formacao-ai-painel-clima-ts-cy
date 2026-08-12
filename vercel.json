@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "installCommand": "npm install --prefix painel_clima/backend && npm install --prefix painel_clima_cy/backend",
+  "routes": [
+    {
+      "src": "/painel_clima/(.*)",
+      "dest": "/api/painel_clima.ts"
+    },
+    {
+      "src": "/painel_clima_cy/(.*)",
+      "dest": "/api/painel_clima_cy.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.ts"
+    }
+  ]
+}
