@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/',
   plugins: [react()],
   resolve: {
     alias: {

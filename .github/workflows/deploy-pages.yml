@@ -1,0 +1,75 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            painel_clima/frontend/package-lock.json
+            painel_clima_cy/frontend/package-lock.json
+
+      - name: Build painel_clima frontend
+        working-directory: painel_clima/frontend
+        env:
+          VITE_API_URL: https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build painel_clima_cy frontend
+        working-directory: painel_clima_cy/frontend
+        env:
+          VITE_API_BASE_URL: https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy
+        run: |
+          npm ci
+          npm run build
+
+      - name: Assemble Pages artifact
+        shell: bash
+        run: |
+          rm -rf pages
+          mkdir -p pages/painel_clima pages/painel_clima_cy
+          cp -R painel_clima/frontend/dist/. pages/painel_clima/
+          cp -R painel_clima_cy/frontend/dist/. pages/painel_clima_cy/
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
