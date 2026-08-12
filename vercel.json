@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "npm install --prefix painel_clima/backend && npm install --prefix painel_clima_cy/backend",
+  "installCommand": "npm ci",
   "routes": [
     {
       "src": "/painel_clima/(.*)",
