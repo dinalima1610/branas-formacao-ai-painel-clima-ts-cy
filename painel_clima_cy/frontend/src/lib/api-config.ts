@@ -20,7 +20,9 @@ export function getApiBaseUrl(env: ApiBaseUrlEnv = import.meta.env) {
 }
 
 export function buildApiUrl(path: string, searchParams: Record<string, string> = {}) {
-  const url = new URL(path, getApiBaseUrl());
+  const baseUrl = `${getApiBaseUrl().replace(/\/+$/, '')}/`;
+  const normalizedPath = path.replace(/^\/+/, '');
+  const url = new URL(normalizedPath, baseUrl);
 
   Object.entries(searchParams).forEach(([key, value]) => {
     url.searchParams.set(key, value);

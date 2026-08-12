@@ -49,6 +49,14 @@ Algumas evidências visuais preservadas podem ainda exibir os nomes anteriores n
 - [painel_clima/qa-empty-search-english-desktop.png](painel_clima/qa-empty-search-english-desktop.png)
 ---
 
+## 🌐 Publicação
+
+Veja os projetos exeutado nos links a seguir:
+- ⛅ [Painel do Clima](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima/).
+- <img src="docs/evidencias/compozy/compozy.png" width="16" height="16" style="vertical-align: middle; display: inline-block; margin-bottom: 3px;" /> [Painel do Clima by Compozy](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/).
+
+---
+
 ## 🎯 Objetivo
 
 O projeto teve dois objetivos principais:
@@ -161,14 +169,6 @@ O projeto possui comandos de inicialização específicos para cada exemplo devi
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): estrutura do projeto, backend, frontend, integração, contratos e limitações técnicas.
 - [PROCESS.md](PROCESS.md): processo com Compozy, SDD, evidências de execução, publicação, qualidade, testes, aprendizados e registros de correção de QA.
-
----
-
-## 🌐 Publicação
-
-- [Painel do Clima](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima/frontend/).
-- [Painel do Clima by Compozy](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/frontend/).
-
 
 ---
 
