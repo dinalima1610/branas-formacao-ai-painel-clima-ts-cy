@@ -1,12 +1,12 @@
 # Processo de Desenvolvimento
 
-Este documento concentra o histórico de desenvolvimento, SDD, Compozy, qualidade, testes e aprendizados do projeto. O [README.md](README.md) fica reservado para visão geral e uso rápido.
+Este documento concentra o histórico de desenvolvimento, SDD, [Compozy](https://github.com/compozy/compozy), qualidade, testes e aprendizados do projeto. O [README.md](README.md) fica reservado para visão geral e uso rápido.
 
 ## <img src="docs/evidencias/compozy/compozy.png" width="24" height="24" style="vertical-align: middle; display: inline-block; margin-bottom: 3px;" /> Processo com Compozy
 
 O projeto [painel_clima_cy](painel_clima_cy/) foi integralmente conduzido com o suporte do **Compozy**, utilizado como ferramenta de **Spec Driven Development (SDD)** para gerenciar, estruturar e orquestrar o fluxo de desenvolvimento assistido por IA a partir de prompts.
 
-Versão do Compozy instalada no contexto deste projeto:
+Versão do [Compozy](https://github.com/compozy/compozy/releases?page=3#release-v0.2.4) instalada no contexto deste projeto:
 
 ```text
 compozy version 0.2.4 (commit=7e20f40-local date=2026-05-19T00:00:00Z)
@@ -126,7 +126,7 @@ npm run build --prefix painel_clima_cy/frontend
 
 Os relatórios de QA de [painel_clima](painel_clima/) registram execuções passando para testes unitários, E2E e builds.
 
-Também registraram QA reprovado por contraste insuficiente em seletor de idioma e dica de busca. A falha estava relacionada a combinações da paleta cream/coral do [`Design System inspired by Claude/Claude Code`](ARCHITECTURE.md#frontend), que ficaram abaixo do contraste mínimo WCAG 2.2 AA em textos normais.
+Também registraram QA reprovado por contraste insuficiente em seletor de idioma e dica de busca. A falha estava relacionada a combinações da paleta cream/coral do design visual original, que ficaram abaixo do contraste mínimo WCAG 2.2 AA em textos normais.
 
 Posteriormente, o BUG-01 foi corrigido e validado por contrast checker local. As evidências da correção foram registradas sem sobrescrever os relatórios originais:
 

@@ -13,8 +13,8 @@ interface ErrorViewProps {
 
 export function EmptyState() {
   return (
-    <section className="rounded-lg border border-dashed border-hairline bg-surface-soft p-6 text-body">
-      <p className="font-display text-2xl text-ink">Busque uma cidade para ver o clima.</p>
+    <section className="rounded-lg border border-dashed border-hairline bg-canvas-card p-6 text-body">
+      <p className="font-display text-2xl font-normal tracking-[-0.02em] text-ink">Busque uma cidade para ver o clima.</p>
       <p className="mt-2 text-sm text-muted-foreground">
         Você também pode usar sua localização quando quiser compartilhar essa permissão.
       </p>
@@ -24,8 +24,8 @@ export function EmptyState() {
 
 export function LoadingView({ label }: LoadingViewProps) {
   return (
-    <div aria-live="polite" className="flex items-center gap-3 rounded-lg bg-surface-soft p-4 text-body" role="status">
-      <Loader2 aria-hidden="true" className="size-5 animate-spin text-primary" />
+    <div aria-live="polite" className="flex items-center gap-3 rounded-lg border border-hairline bg-canvas-card p-4 text-body" role="status">
+      <Loader2 aria-hidden="true" className="size-5 animate-spin text-accent-sunset-soft" />
       <span>{label}</span>
     </div>
   );
@@ -33,11 +33,11 @@ export function LoadingView({ label }: LoadingViewProps) {
 
 export function ErrorView({ error, onRetry }: ErrorViewProps) {
   return (
-    <section className="rounded-lg border border-error/30 bg-surface-soft p-4 text-body" role="alert">
+    <section className="rounded-lg border border-error/40 bg-canvas-card p-4 text-body" role="alert">
       <div className="flex items-start gap-3">
         <AlertCircle aria-hidden="true" className="mt-1 size-5 shrink-0 text-error" />
         <div>
-          <h2 className="font-semibold text-ink">{error.title}</h2>
+          <h2 className="font-normal text-ink">{error.title}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{error.description}</p>
           {error.canRetry ? (
             <Button className="mt-3 cursor-pointer" onClick={() => void onRetry()} type="button" variant="outline">

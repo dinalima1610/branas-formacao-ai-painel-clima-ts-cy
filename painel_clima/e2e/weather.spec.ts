@@ -8,12 +8,13 @@ test('renders first access in Portuguese and loads metric weather by city search
   await page.goto('/')
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
-  await expect(page).toHaveTitle('Painel de clima')
+  await expect(page).toHaveTitle('Painel do Clima')
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /temperatura/)
   await expect(page.getByRole('heading', { name: 'Clima atual e previsão de 7 dias' })).toBeVisible()
 
   await searchCity(page, 'Curitiba', 'Selecionar Curitiba, Parana, Brasil')
 
+  await expect(page.getByRole('combobox', { name: 'Buscar cidade' })).toHaveValue('Curitiba, Parana, Brasil')
   await expect(page.getByRole('heading', { name: '24°C' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Próximos 7 dias' })).toBeVisible()
   await expect(page.getByText('12 km/h')).toBeVisible()
@@ -33,7 +34,7 @@ test('switches to English without refetching loaded weather', async ({ page }) =
   await page.getByRole('radio', { name: 'Inglês' }).click()
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'en-US')
-  await expect(page).toHaveTitle('Weather panel')
+  await expect(page).toHaveTitle('Painel do Clima')
   await expect(page.getByRole('heading', { name: 'Current weather and 7 day forecast' })).toBeVisible()
   await expect(page.getByRole('heading', { name: '24°C' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Next 7 days' })).toBeVisible()
@@ -71,6 +72,7 @@ test('uses browser geolocation only after explicit user action', async ({ contex
   await page.goto('/')
   await page.getByRole('button', { name: 'Usar minha localização' }).click()
 
+  await expect(page.getByRole('combobox', { name: 'Buscar cidade' })).toHaveValue('Curitiba, Paraná, Brasil')
   await expect(page.getByRole('heading', { name: '24°C' })).toBeVisible()
 })
 
@@ -103,6 +105,7 @@ test('supports keyboard navigation through language, units and city results', as
   await expect(page.getByRole('option', { name: 'Select Curitiba, Parana, Brasil' })).toBeVisible()
   await page.keyboard.press('Enter')
 
+  await expect(page.getByRole('combobox', { name: 'Search city' })).toHaveValue('Curitiba, Parana, Brasil')
   await expect(page.getByRole('heading', { name: '75°F' })).toBeVisible()
 })
 

@@ -141,6 +141,7 @@ describe('WeatherPanel', () => {
     const user = await searchFor('São Paulo');
     await user.click(await screen.findByText('São Paulo, São Paulo, Brazil'));
 
+    expect(screen.getByLabelText('Buscar cidade')).toHaveValue('São Paulo, São Paulo, Brazil');
     expect((await screen.findAllByText('20°C')).length).toBeGreaterThan(0);
     expect(fetchMock.mock.calls[1][0].toString()).toContain('/weather?');
   });
@@ -219,8 +220,42 @@ describe('WeatherPanel', () => {
     await userEvent.click(screen.getByRole('button', { name: /usar minha localização/i }));
 
     await waitFor(() => expect(fetchMock.mock.calls[0][0].toString()).toContain('/places/reverse?'));
+    expect(screen.getByLabelText('Buscar cidade')).toHaveValue(saoPaulo.label);
     expect(await screen.findByText(saoPaulo.label)).toBeInTheDocument();
     expect((await screen.findAllByText('20°C')).length).toBeGreaterThan(0);
+  });
+
+  it('replaces a previous search query with the resolved geolocation label', async () => {
+    const getCurrentPosition: Geolocation['getCurrentPosition'] = (success) => {
+      success({
+        coords: {
+          accuracy: 10,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          latitude: -23.55,
+          longitude: -46.63,
+          speed: null,
+          toJSON: () => ({}),
+        },
+        timestamp: Date.now(),
+        toJSON: () => ({}),
+      });
+    };
+    setupGeolocation(getCurrentPosition);
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse({ places: [saoPauloUs] }))
+      .mockResolvedValueOnce(jsonResponse(createWeather(saoPauloUs)))
+      .mockResolvedValueOnce(jsonResponse({ places: [saoPaulo] }))
+      .mockResolvedValueOnce(jsonResponse(createWeather(saoPaulo)));
+    render(<WeatherPanel />);
+
+    await searchFor('São Paulo');
+    await screen.findByText(saoPauloUs.label);
+    await userEvent.click(screen.getByRole('button', { name: /usar minha localização/i }));
+
+    expect(await screen.findByText(saoPaulo.label)).toBeInTheDocument();
+    expect(screen.getByLabelText('Buscar cidade')).toHaveValue(saoPaulo.label);
   });
 
   it('shows a neutral denied-location message and keeps manual search usable', async () => {
@@ -234,6 +269,7 @@ describe('WeatherPanel', () => {
 
     expect(await screen.findByText('Localização não autorizada')).toBeInTheDocument();
     expect(screen.getByLabelText('Buscar cidade')).toBeEnabled();
+    expect(screen.getByLabelText('Buscar cidade')).toHaveValue('');
   });
 
   it('toggles Celsius to Fahrenheit across current, hourly, and daily values without refetching weather', async () => {

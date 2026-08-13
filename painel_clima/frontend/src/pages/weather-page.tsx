@@ -77,6 +77,9 @@ function WeatherPageContent() {
       const currentLocation = await getCurrentLocationCity(coordinates)
       const currentCity = currentLocation?.city ?? null
       const cityLabel = currentCity === null ? messages.geolocation.currentLocation : formatCityLabel(currentCity)
+      if (currentCity !== null) {
+        setQuery(cityLabel)
+      }
       setCurrentLocationCity(currentCity)
       setCurrentLocationSource(currentLocation?.source ?? null)
       setIsCurrentLocationWeather(true)

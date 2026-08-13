@@ -9,7 +9,7 @@ interface GeolocationChipProps {
 export function GeolocationChip({ disabled, onClick }: GeolocationChipProps) {
   return (
     <Button
-      className="h-9 cursor-pointer rounded-full border-hairline bg-canvas px-4 text-ink hover:bg-surface-card"
+      className="h-9 cursor-pointer rounded-full border-hairline bg-canvas px-4 text-ink hover:bg-canvas-soft"
       disabled={disabled}
       onClick={() => {
         void onClick();

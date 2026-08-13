@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ["class"],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -17,20 +16,19 @@ export default {
       colors: {
         canvas: "hsl(var(--canvas))",
         ink: "hsl(var(--ink))",
+        "ink-hover": "hsl(var(--ink-hover))",
         body: "hsl(var(--body))",
-        "body-strong": "hsl(var(--body-strong))",
+        "body-mid": "hsl(var(--body-mid))",
         hairline: "hsl(var(--hairline))",
-        "hairline-soft": "hsl(var(--hairline-soft))",
-        "surface-soft": "hsl(var(--surface-soft))",
-        "surface-card": "hsl(var(--surface-card))",
-        "surface-cream-strong": "hsl(var(--surface-cream-strong))",
-        "surface-dark": "hsl(var(--surface-dark))",
-        "surface-dark-elevated": "hsl(var(--surface-dark-elevated))",
-        "surface-dark-soft": "hsl(var(--surface-dark-soft))",
-        "on-dark": "hsl(var(--on-dark))",
-        "on-dark-soft": "hsl(var(--on-dark-soft))",
-        "accent-teal": "hsl(var(--accent-teal))",
-        "accent-amber": "hsl(var(--accent-amber))",
+        "canvas-soft": "hsl(var(--canvas-soft))",
+        "canvas-card": "hsl(var(--canvas-card))",
+        "canvas-mid": "hsl(var(--canvas-mid))",
+        "accent-sunset": "hsl(var(--accent-sunset))",
+        "accent-sunset-soft": "hsl(var(--accent-sunset-soft))",
+        "accent-dusk": "hsl(var(--accent-dusk))",
+        "accent-twilight": "hsl(var(--accent-twilight))",
+        "accent-breeze": "hsl(var(--accent-breeze))",
+        "accent-midnight": "hsl(var(--accent-midnight))",
         success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
         error: "hsl(var(--error))",
@@ -74,9 +72,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        display: ['"Tiempos Headline"', '"Cormorant Garamond"', '"EB Garamond"', 'Georgia', 'serif'],
-        sans: ['Inter', 'StyreneB', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        display: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'monospace'],
       },
       keyframes: {
         "accordion-down": {

@@ -14,26 +14,26 @@ const timeFormatter = new Intl.DateTimeFormat('pt-BR', {
 
 export function HourlyForecast({ hourly, temperatureUnit }: HourlyForecastProps) {
   return (
-    <section aria-labelledby="hourly-forecast-title">
+    <section className="min-w-0" aria-labelledby="hourly-forecast-title">
       <div className="mb-3 flex items-end justify-between gap-4">
-        <h2 className="font-display text-2xl text-ink" id="hourly-forecast-title">
+        <h2 className="font-display text-2xl font-normal tracking-[-0.02em] text-ink" id="hourly-forecast-title">
           Próximas 24 horas
         </h2>
         <p className="text-sm text-muted-foreground">{hourly.length} pontos horários</p>
       </div>
 
-      <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-3" role="list">
+      <div className="flex w-full max-w-full gap-3 overflow-x-auto pb-3" role="list">
         {hourly.map((slot) => (
           <article
-            className="min-w-24 rounded-lg border border-hairline bg-canvas p-3 text-center text-body"
+            className="min-w-24 rounded-lg border border-hairline bg-canvas-card p-3 text-center text-body"
             key={slot.time}
             role="listitem"
           >
-            <time className="text-sm font-medium text-muted-foreground" dateTime={slot.time}>
+            <time className="text-sm font-normal text-muted-foreground" dateTime={slot.time}>
               {timeFormatter.format(new Date(slot.time))}
             </time>
-            <WeatherIcon className="mx-auto mt-3 size-6 text-primary" iconKey={slot.conditionIconKey} label={slot.conditionLabel} />
-            <p className="mt-2 text-lg font-semibold text-ink">{formatTemperature(slot.temperature, temperatureUnit)}</p>
+            <WeatherIcon className="mx-auto mt-3 size-6 text-accent-breeze" iconKey={slot.conditionIconKey} label={slot.conditionLabel} />
+            <p className="mt-2 text-lg font-normal text-ink">{formatTemperature(slot.temperature, temperatureUnit)}</p>
           </article>
         ))}
       </div>

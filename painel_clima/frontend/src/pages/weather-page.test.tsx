@@ -19,7 +19,7 @@ describe('WeatherPage', () => {
     render(<WeatherPage />)
 
     expect(document.documentElement.lang).toBe('pt-BR')
-    expect(document.title).toBe('Painel de clima')
+    expect(document.title).toBe('Painel do Clima')
     expect(screen.getByText('Busque uma cidade para ver o clima.')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Usar minha localização' })).toBeInTheDocument()
     expect(window.navigator.geolocation.getCurrentPosition).not.toHaveBeenCalled()
@@ -31,6 +31,7 @@ describe('WeatherPage', () => {
 
     render(<WeatherPage />)
     await searchAndSelectCity('Curitiba')
+    expect(screen.getByRole('combobox', { name: 'Buscar cidade' })).toHaveValue('Curitiba, Parana, Brasil')
 
     expect(await screen.findByRole('heading', { name: '24°C' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Próximos 7 dias' })).toBeInTheDocument()
@@ -76,7 +77,24 @@ describe('WeatherPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Usar minha localização' }))
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('combobox', { name: 'Buscar cidade' })).toHaveValue('Curitiba, Parana, Brasil')
     expect(await screen.findByRole('heading', { name: '24°C' })).toBeInTheDocument()
+  })
+
+  it('should replace a previous city query with the resolved geolocation label', async () => {
+    mockGeolocationSuccess()
+    vi.stubGlobal('fetch', createWeatherFetch())
+
+    render(<WeatherPage />)
+    await searchAndSelectCity('Curitiba')
+    const input = screen.getByRole('combobox', { name: 'Buscar cidade' })
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Busca anterior')
+
+    await userEvent.click(screen.getByRole('button', { name: 'Usar minha localização' }))
+
+    expect(await screen.findByRole('heading', { name: '24°C' })).toBeInTheDocument()
+    expect(input).toHaveValue('Curitiba, Parana, Brasil')
   })
 
   it('should re-enable geolocation action after resolving the location request', async () => {
@@ -175,6 +193,7 @@ describe('WeatherPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Usar minha localização' }))
 
     expect(await screen.findByText(/Permissão negada/)).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'Buscar cidade' })).toHaveValue('')
 
     await searchAndSelectCity('Curitiba')
 

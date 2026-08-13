@@ -6,38 +6,33 @@ A aplicação permite aos usuários consultarem de forma ágil as condições cl
 
 Toda a comunicação com o provedor de clima externo **Open-Meteo** é realizada exclusivamente via backend do projeto, atuando como um BFF (Backend-for-Frontend) para garantir a segurança e a conformidade com as restrições arquiteturais, implementado por artefatos de SDD (Spec Driven Development) e validações automatizadas.
 
-Como ferramenta de SDD, o projeto [painel_clima_cy](painel_clima_cy) é a evolução do [painel_clima](painel_clima) estruturado e executado com o fluxo de desenvolvimento assistido por IA a partir de prompts com o apoio do [Compozy](https://github.com/compozy/compozy), release 0.2.4.
+Como ferramenta de SDD, o projeto [painel_clima_cy](painel_clima_cy) é a evolução do [painel_clima](painel_clima) estruturado e executado com o fluxo de desenvolvimento assistido por IA a partir de prompts com o apoio do [Compozy](PROCESS.md#processo-com-compozy), release 0.2.4.
 
 ---
 
 ## 🎬 Preview
 
-Abaixo, encontram-se demonstrações visuais do funcionamento do Painel de Clima em suas diferentes implementações:
+**Observação**: este projeto foi renomeado de `f_ia_m1_4_cy` para `branas_painel_clima`.  
+Os subprojetos também foram renomeados de `example_09` para `painel_clima` e de `example_10` para `painel_clima_cy`, e este último teve sua aparência alterada após o MVP.
+
+Abaixo, encontram-se demonstrações funcionais do Painel de Clima em suas diferentes implementações:
 
 - **Painel do Clima (BFF com rotas `/api/v1`)**
 
-  Veja o backend público do Painel do Clima na Vercel: [branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima/health](https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima/health)
+  ![Prévia animada do painel_clima](docs/evidencias/videos/painel-clima-demo-final.gif)
 
-  [![Prévia animada do painel_clima](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.gif)](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.webm)
-
-  [Abrir vídeo original: painel_clima - busca por Curitiba, idioma e unidades](docs/evidencias/videos/painel-clima-busca-curitiba-unidades.webm)
+  [▶️ Assistir à demonstração — painel_clima](https://github.com/user-attachments/assets/4db2bed0-970b-4f07-bda0-e132da28f59f)
 
 - **Painel do Clima by CY - Compozy (Estrutura modular com rotas `/places` e `/weather`)**
-
-  Veja o backend público do Painel do Clima by CY na Vercel: [branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy/health](https://branas-formacao-ai-painel-clima-ts-cy.vercel.app/painel_clima_cy/health)
-
-  [![Prévia animada do painel_clima_cy](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.gif)](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.webm)
-
-  [Abrir vídeo original: painel_clima_cy - busca por São Paulo e previsão](docs/evidencias/videos/painel-clima-cy-busca-sao-paulo-previsao.webm)
+  ![Prévia animada do painel_clima_cy](docs/evidencias/videos/painel-clima-cy-demo-final.gif)
+  
+  [▶️ Assistir à demonstração — painel_clima_cy](https://github.com/user-attachments/assets/1852da6c-0472-4c0d-826b-885ab5e77a19)
 
 *   **Evidências de Execução no Compozy**:
     *   Para visualizar o fluxo de execução automatizada e geração de tarefas pelo orquestrador, acesse [PROCESS.md](PROCESS.md), que contém links para os logs e capturas de tela das execuções do daemon.
 
 *   **O projeto também inclui evidências visuais de QA** (Quality Assurance) em [painel_clima](painel_clima/).
 
-**Observação**: este projeto foi renomeado de `f_ia_m1_4_cy` para `branas_painel_clima`. 
-
-Os subprojetos também foram renomeados de `example_09` para `painel_clima` e de `example_10` para `painel_clima_cy`. 
 
 Algumas evidências visuais preservadas podem ainda exibir os nomes anteriores na interface, caminhos ou metadados, pois foram capturadas antes da renomeação.
 
@@ -51,9 +46,9 @@ Algumas evidências visuais preservadas podem ainda exibir os nomes anteriores n
 
 ## 🌐 Publicação
 
-Veja os projetos exeutado nos links a seguir:
-- ⛅ [Painel do Clima](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima/).
-- <img src="docs/evidencias/compozy/compozy.png" width="16" height="16" style="vertical-align: middle; display: inline-block; margin-bottom: 3px;" /> [Painel do Clima by Compozy](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/).
+Veja os projetos executando nos links a seguir:
+- ⛅ [Painel do Clima](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima/)
+- [<img src="docs/evidencias/compozy/compozy.png" width="16" height="16" style="vertical-align: middle; display: inline-block; margin-bottom: 3px; margin-right: 4px;" />  Painel do Clima by Compozy](https://dinalima1610.github.io/branas-formacao-ai-painel-clima-ts-cy/painel_clima_cy/)
 
 ---
 

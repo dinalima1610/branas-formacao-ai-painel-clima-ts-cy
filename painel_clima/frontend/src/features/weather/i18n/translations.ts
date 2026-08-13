@@ -38,7 +38,7 @@ export const weatherTranslations = {
       eyebrow: 'Public weather panel',
       heading: 'Current weather and 7 day forecast',
       searchDescription: 'Search for a city or authorize your location only when you want local weather.',
-      title: 'Weather panel',
+      title: 'Painel do Clima',
     },
     search: {
       empty: 'No city found for this term.',
@@ -101,7 +101,7 @@ export const weatherTranslations = {
       eyebrow: 'Painel público de clima',
       heading: 'Clima atual e previsão de 7 dias',
       searchDescription: 'Busque uma cidade ou autorize sua localização apenas quando quiser consultar o clima local.',
-      title: 'Painel de clima',
+      title: 'Painel do Clima',
     },
     search: {
       empty: 'Nenhuma cidade encontrada para esse termo.',

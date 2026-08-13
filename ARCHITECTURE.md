@@ -89,17 +89,20 @@ O backend integra com Open-Meteo, normaliza respostas, trata erros de entrada e 
 
 O frontend implementa uma interface moderna em React, TypeScript, Vite e Tailwind focada em usabilidade e design.
 
-### Design System e Referências das Marcas
+### Design System
 
-A criação visual seguiu o conceito de criação de Design Systems baseados no padrão `DESIGN.md` (amplamente disseminado no site/repositório [**getdesign.md**](https://getdesign.md/design-md) mantido pelo Google para consolidar e expor o design de marcas, similar à referência conceitual *"Design System inspired by [Ferrari]"*).
+A criação visual seguiu o conceito de criação de Design Systems baseados no padrão `DESIGN.md` (amplamente disseminado no site/repositório [**getdesign.md**](https://getdesign.md/design-md) mantido pelo Google para consolidar e expor o design de marcas
 
-No caso deste projeto, o visual foi construído em conformidade com o **Design System inspired by Claude Code** (Anthropic):
-*   **Estilo Visual**: Interface com fundo pastel/creme (`cream canvas` - `#faf9f5`), CTAs em tons de coral quente (`#cc785c`), tipografia display serifada clássica (`Copernicus` / `Tiempos Headline`) para títulos de destaque, fontes sem-serifa humanistas para textos de leitura, e superfícies escuras texturizadas (`surface-dark` - `#181715`) para cards de dados técnicos.
+A apresentação visual vigente do frontend é governada por `DESIGN.md`, que atua como fonte de verdade para tokens, tipografia, cores, shapes, surfaces e demais primitives visuais.
+
+*   **Estilo Visual**: 
+    - O `painel_clima` tem interface **Design System inspired by Claude Code** (Anthropic), com fundo pastel/creme (`cream canvas` - `#faf9f5`), CTAs em tons de coral quente (`#cc785c`), tipografia display serifada clássica (`Copernicus` / `Tiempos Headline`) para títulos de destaque, fontes sem-serifa humanistas para textos de leitura, e superfícies escuras texturizadas (`surface-dark` - `#181715`) para cards de dados técnicos.
+    - O `painel_clima_cy` adota **Design System inspired by xAI** (SpaceXAI), com canvas escuro, tipografia sem-serifa, botões em formato pill, cards com hairline e superfícies escuras, sem sombras como mecanismo normal de elevação.
 *   **Organização das Features**: A implementação foi realizada de forma altamente modular dentro de `features/weather-panel/` (ou `features/weather/`), isolando componentes puramente visuais da lógica de geolocalização e carregamento assíncrono expostos em hooks.
 
 ### Acessibilidade: Histórico e Correção do BUG-01
 
-Apesar do alinhamento visual com as diretrizes do Claude Code, o design system foi inicialmente **reprovado na auditoria de acessibilidade de QA**.
+Durante a geração original do projeto, o design system então vigente foi **reprovado na auditoria de acessibilidade de QA**.
 *   **Motivo**: Contraste insuficiente nas combinações de cores da paleta creme/coral em elementos textuais pequenos, especificamente no **seletor de idioma** e nas **dicas de busca**. O contraste ficou abaixo do limite mínimo de **4.5:1** exigido pela WCAG 2.2 AA para textos normais.
 *   **Correção**: O BUG-01 escureceu o coral usado em estados selecionados e ações pequenas, além de ajustar textos auxiliares para uma cor neutra mais escura. A correção foi aplicada em `painel_clima` por componentes/tokens e replicada em `painel_clima_cy` por tokens globais da paleta.
 *   **Evidências**: [BUG-01-contrast-fix.md](docs/evidencias/qa/BUG-01-contrast-fix.md), [BUG-01-contrast-check.json](docs/evidencias/qa/BUG-01-contrast-check.json).

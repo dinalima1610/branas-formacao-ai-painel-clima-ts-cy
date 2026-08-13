@@ -21,7 +21,7 @@ export function WeatherSearch({ disabled, onQueryChange, onSubmit, query }: Weat
         Buscar cidade
       </label>
       <input
-        className="h-11 min-w-0 flex-1 rounded-md border border-input bg-background px-4 text-base text-foreground outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
+        className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-canvas-soft px-4 text-base text-foreground outline-none transition placeholder:text-body-mid focus:border-accent-sunset-soft focus:ring-4 focus:ring-ring/20"
         disabled={disabled}
         id="weather-search"
         onChange={(event) => onQueryChange(event.target.value)}

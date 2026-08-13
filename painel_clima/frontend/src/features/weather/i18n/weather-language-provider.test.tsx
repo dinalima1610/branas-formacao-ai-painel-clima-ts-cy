@@ -18,7 +18,7 @@ describe('WeatherLanguageProvider', () => {
 
     expect(screen.getByText('pt-BR')).toBeInTheDocument()
     expect(document.documentElement.lang).toBe('pt-BR')
-    expect(document.title).toBe('Painel de clima')
+    expect(document.title).toBe('Painel do Clima')
   })
 
   it('should persist language changes', async () => {
