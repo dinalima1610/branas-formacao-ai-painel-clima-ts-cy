@@ -19,12 +19,9 @@ Abaixo, encontram-se demonstrações funcionais do Painel de Clima em suas difer
 
 - **Painel do Clima (BFF com rotas `/api/v1`)**
 
-  ![Prévia animada do painel_clima](docs/evidencias/videos/painel-clima-demo-final.gif)
-
   [▶️ Assistir à demonstração — painel_clima](https://github.com/user-attachments/assets/4db2bed0-970b-4f07-bda0-e132da28f59f)
 
 - **Painel do Clima by CY - Compozy (Estrutura modular com rotas `/places` e `/weather`)**
-  ![Prévia animada do painel_clima_cy](docs/evidencias/videos/painel-clima-cy-demo-final.gif)
   
   [▶️ Assistir à demonstração — painel_clima_cy](https://github.com/user-attachments/assets/1852da6c-0472-4c0d-826b-885ab5e77a19)
 
