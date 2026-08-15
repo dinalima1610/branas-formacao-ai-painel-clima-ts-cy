@@ -21,7 +21,7 @@ export function WeatherSearch({ disabled, onQueryChange, onSubmit, query }: Weat
         Buscar cidade
       </label>
       <input
-        className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-canvas-soft px-4 text-base text-foreground outline-none transition placeholder:text-body-mid focus:border-accent-sunset-soft focus:ring-4 focus:ring-ring/20"
+        className="h-11 w-full min-w-0 rounded-lg border border-canvas-mid bg-canvas-soft px-4 text-base text-foreground outline-none transition placeholder:text-body focus-visible:border-accent-sunset-soft focus-visible:[box-shadow:0_0_0_4px_hsl(var(--ring)_/_0.25)] sm:flex-1 sm:border-input sm:placeholder:text-body-mid sm:focus-visible:[box-shadow:0_0_0_4px_hsl(var(--ring)_/_0.2)]"
         disabled={disabled}
         id="weather-search"
         onChange={(event) => onQueryChange(event.target.value)}
@@ -29,7 +29,7 @@ export function WeatherSearch({ disabled, onQueryChange, onSubmit, query }: Weat
         type="search"
         value={query}
       />
-      <Button className="h-11 cursor-pointer" disabled={disabled} type="submit">
+      <Button className="h-11 cursor-pointer bg-ink-hover hover:bg-ink-hover/90 sm:bg-primary sm:hover:bg-primary/90" disabled={disabled} type="submit">
         <Search aria-hidden="true" />
         Buscar
       </Button>
